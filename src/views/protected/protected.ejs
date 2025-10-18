@@ -1,0 +1,16 @@
+<h1>🔒 Protected Area</h1>
+<p>
+  Welcome, <strong>
+    <%= locals.username %>
+  </strong>!
+  This is a secure page only for authenticated users.
+</p>
+<a href="/auth/profile">Go to Profile</a>
+
+
+<form action="/auth/logout" method="post">
+  <div class="form-group">
+    <button type="submit" class="btn">Logout</button>
+  </div>
+</form>
+<a href="/" class="button">Back to home</a>

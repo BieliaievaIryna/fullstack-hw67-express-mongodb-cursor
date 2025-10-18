@@ -1,0 +1,19 @@
+<h1>Login</h1>
+<form action="/auth/login" method="POST" class="auth-form">
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required placeholder="Enter your username" />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required placeholder="Enter your password" />
+  </div>
+
+  <button type="submit" class="btn">Log In</button>
+</form>
+
+<p class="auth-footer">
+  Don’t have an account? <a href="/auth/register">Register</a>
+</p>
+<a href="/" class="button">Back to home</a>

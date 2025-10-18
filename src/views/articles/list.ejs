@@ -1,0 +1,11 @@
+<h1>Articles List</h1>
+<ul class="article-list">
+  <% articles.forEach(article => { %>
+    <li class="article-item">
+      <a href="/articles/<%= article._id %>">
+        <%= article.title %>
+      </a>
+    </li>
+  <% }) %>
+</ul>
+<a href="/" class="button">Back to home</a>

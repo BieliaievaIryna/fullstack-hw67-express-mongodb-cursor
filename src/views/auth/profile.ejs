@@ -1,0 +1,21 @@
+<h1>Welcome, <%= locals.user.username %>!</h1>
+
+<p class="auth-footer">
+  You are logged in as <strong><%= locals.user.username %></strong>.
+</p>
+
+<% if (locals.user.email) { %>
+  <p>Email: <strong><%= locals.user.email %></strong></p>
+<% } %>
+
+<% if (locals.user.createdAt) { %>
+  <p>Member since: <strong><%= locals.user.createdAt %></strong></p>
+<% } %>
+
+<a href="/protected">Go to Protected Page</a>
+
+<form action="/auth/logout" method="POST">
+  <button type="submit" class="btn">Logout</button>
+</form>
+
+<a href="/" class="button">Back to home</a>

@@ -1,0 +1,12 @@
+<h1>Users List</h1>
+<ul class="article-list">
+  <% users.forEach(user => { %>
+    <li class="article-item">
+      <a href="/users/<%= user._id %>">
+        <%= user.name %>
+      </a>
+      <p><%= user.email %></p>
+    </li>
+  <% }) %>
+</ul>
+<a href="/" class="button">Back to home</a>
