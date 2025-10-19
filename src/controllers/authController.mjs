@@ -1,6 +1,7 @@
 import passport from 'passport'
 import { getDB } from '../config/mongoClient.mjs'
 import { ObjectId } from 'mongodb'
+import bcrypt from 'bcrypt'
 
 // --- GET /auth/login ---
 export const getLoginPage = (req, res) => {
@@ -34,10 +35,12 @@ export const registerHandler = async (req, res) => {
     if (existingUser)
       return res.status(400).send('User already exists')
 
+    const hashedPasswordDefault = await bcrypt.hash('password', 10);
+
     const newUser = {
       _id: new ObjectId(),
       username,
-      password,
+      password: hashedPasswordDefault,
       name: name || username,
       email: email || '',
       createdAt: new Date()

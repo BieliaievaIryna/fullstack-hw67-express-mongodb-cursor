@@ -1,5 +1,6 @@
 import { client } from '../config/mongoClient.mjs';
 import { ObjectId } from 'mongodb';
+import bcrypt from 'bcrypt';
 
 const db = () => client.db('myapp_db');
 const usersCollection = () => db().collection('users');
@@ -52,11 +53,13 @@ export const postUsersHandler = async (req, res) => {
     const { name, username, email, password } = req.body;
     if (!name || !username || !password) return res.status(400).send('Missing required fields');
 
+    const hashedPasswordDefault = await bcrypt.hash('password', 10);
+
     await usersCollection().insertOne({
       name,
       username,
       email: email || '',
-      password,
+      password: hashedPasswordDefault,
       createdAt: new Date()
     });
 
@@ -73,10 +76,16 @@ export const putUserByIdHandler = async (req, res) => {
     const { userId } = req.params;
     const { name, username, email, password } = req.body;
 
+    const updateData = { name, username, email }
+
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10)
+    }
+
     const result = await usersCollection().updateOne(
       { _id: new ObjectId(String(userId)) },
-      { $set: { name, username, email, password } }
-    );
+      { $set: updateData }
+    )
 
     if (result.matchedCount === 0) return res.status(404).send('User Not Found');
 
@@ -93,10 +102,19 @@ export const replaceUserByIdHandler = async (req, res) => {
     const { userId } = req.params;
     const { name, username, email, password } = req.body;
 
+    const hashedPasswordDefault = await bcrypt.hash(password, 10)
+
     const result = await usersCollection().replaceOne(
       { _id: new ObjectId(String(userId)) },
-      { _id: new ObjectId(String(userId)), name, username, email, password, createdAt: new Date() }
-    );
+      {
+        _id: new ObjectId(String(userId)),
+        name,
+        username,
+        email,
+        password: hashedPasswordDefault,
+        createdAt: new Date(),
+      }
+    )
 
     if (result.matchedCount === 0) return res.status(404).send('User Not Found');
 
